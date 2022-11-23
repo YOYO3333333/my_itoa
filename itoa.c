@@ -1,74 +1,40 @@
+#include <stddef.h>
 #include <stdio.h>
-void inverse(char *, char *);
-int len_str(char *);
-char *my_itoa(int value, char *s);
-void decal(char*);
-void decal_min(char* s)
+size_t my_strlen(const char *s)
 {
-
-int i=len_str(s);
-while(i)
-{
-    s[i+1]=s[i];
-	i--;
+    const char *st;
+    for (st = s; *st; ++st)
+    {
+        continue;
+    }
+    return (st - s);
 }
-s[1]=s[0];
-s[0]='-';
+void renverse(char s[])
+{
+    int i, j;
+    char c;
+
+    for (i = 0, j = my_strlen(s) - 1; i < j; i++, j--)
+    {
+        c = s[i];
+        s[i] = s[j];
+        s[j] = c;
+    }
 }
 char *my_itoa(int value, char *s)
 {
-    int r, i,min;
-    r = i =min= 0;
+    int i, sign;
 
-    if (!value)
-	{   s[i]=0+'0';
-        s[i+1] = '\0';
-		return s;
-	} 
-	if(min<0)
-	{
-     min++;
-	 value=-value;
-	}
-    while (value)
+    if ((sign = value) < 0)
+        value = -value;
+    i = 0;
+    do
     {
-        r = value % 10;
-        s[i] = r + '0';
-        value = value / 10;
-        i++;
-    }
+        s[i++] = value % 10 + '0';
+    } while ((value /= 10) > 0);
+    if (sign < 0)
+        s[i++] = '-';
     s[i] = '\0';
-    inverse(s, s + len_str(s) - 1);
-	if(min)
-     decal_min(s);
+    renverse(s);
     return s;
-}
-void inverse(char *begin, char *end)
-{
-    char temp;
-    while (begin < end)
-    {
-        temp = *begin;
-        *begin++ = *end;
-        *end-- = temp;
-    }
-}
-
-int len_str(char *s)
-{
-    int l, i;
-    i = l = 0;
-    while (*(s + i) != '\0')
-    {
-        l++;
-        i++;
-    }
-
-    return l;
-}
-int main(void)
-{   char s[]="";
-    printf("%s \n", my_itoa(-123,s));
-
-    return 0;
 }
